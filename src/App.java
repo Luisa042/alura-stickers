@@ -1,4 +1,6 @@
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -20,13 +22,24 @@ public class App {
         JsonParser parser = new JsonParser();
         List<Map<String, String>> movieList = parser.parse(json);
 
+        StickerGenerator generator = new StickerGenerator();
         // show parsed data
-        for (Map<String,String> movie : movieList) {
-            System.out.println("\u001b[1mTitle:\u001b[0m \u001b[44m " + movie.get("title") + " \u001b[m");
-            System.out.println("\u001b[1mImage URL:\u001b[0m " + movie.get("image"));
-            System.out.print("\u001b[1mRating:\u001b[0m " + movie.get("imDbRating") + " ");
+        for (Map<String, String> movie : movieList) {
+            String title = movie.get("title");
+            String imageURL = movie.get("image");
+            String imDbRating = movie.get("imDbRating");
+
+            // generates stickers from url
+            InputStream inputStream = new URL(imageURL).openStream();
+            String stickerName = title + ".png";
+            generator.create(inputStream, stickerName);
+
+            // print info on terminal
+            System.out.println("\u001b[1mTitle:\u001b[0m \u001b[44m " + title + " \u001b[m");
+            System.out.println("\u001b[1mImage URL:\u001b[0m " + imageURL);
+            System.out.print("\u001b[1mRating:\u001b[0m " + imDbRating + " ");
             
-            double classification = Double.parseDouble(movie.get("imDbRating"));
+            double classification = Double.parseDouble(imDbRating);
             int stars = (int) classification;
             for (int n = 1; n <= stars; n++) {
                 System.out.print("⭐");

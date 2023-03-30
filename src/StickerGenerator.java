@@ -3,18 +3,16 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-// import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 
 public class StickerGenerator {
 
-    public void create() throws Exception {
+    public void create(InputStream inputStream, String stickerName) throws Exception {
         // read image
-        //InputStream inputStream = new FileInputStream(new File("input/apple-cat.jpg"));
-        InputStream inputStream = new URL("https://static.wikia.nocookie.net/evade-nextbot/images/0/0d/Tbh.png").openStream();
+        // InputStream inputStream = new FileInputStream(new File("input/apple-cat.jpg"));
+        // InputStream inputStream = new URL("https://static.wikia.nocookie.net/evade-nextbot/images/0/0d/Tbh.png").openStream();
         BufferedImage sourceImage = ImageIO.read(inputStream);
 
         // create new image with transparent background and new size
@@ -43,11 +41,6 @@ public class StickerGenerator {
         graphics.drawString(text, txtPositionX, txtPositionY);
         
         // write new image on a file
-        ImageIO.write(newImage, "png", new File("output/apple-cat.png"));
-    }
-
-    public static void main(String[] args) throws Exception {
-        StickerGenerator generator = new StickerGenerator();
-        generator.create();
+        ImageIO.write(newImage, "png", new File(stickerName));
     }
 }
