@@ -24,7 +24,10 @@ public class StickerGenerator {
         // font config
         Font font = new Font(Font.SANS_SERIF, Font.BOLD, 64);
         graphics.setFont(font);
-
+                
+        // write text into new image
+        graphics.drawString("^-^", 100, newHeight - 100);
+        
         // write new image on a file
         ImageIO.write(newImage, "png", new File("output/apple-cat.png"));
     }
