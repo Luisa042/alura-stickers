@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
@@ -23,6 +24,11 @@ public class App {
         List<Map<String, String>> movieList = parser.parse(json);
 
         StickerGenerator generator = new StickerGenerator();
+
+        // checks if 'stickers' directory exists and create if doesn't exists
+        var directory = new File("stickers/");
+        directory.mkdir();
+
         // show parsed data
         for (Map<String, String> movie : movieList) {
             String title = movie.get("title");
@@ -31,7 +37,7 @@ public class App {
 
             // generates stickers from url
             InputStream inputStream = new URL(imageURL).openStream();
-            String stickerName = title + ".png";
+            String stickerName = directory + "/" + title + ".png";
             generator.create(inputStream, stickerName);
 
             // print info on terminal
