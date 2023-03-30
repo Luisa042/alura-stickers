@@ -2,6 +2,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -9,12 +11,13 @@ public class StickerGenerator {
 
     public void create() throws Exception {
         // read image
-        BufferedImage sourceImage = ImageIO.read(new File("input/apple-cat.jpg"));
+        InputStream inputStream = new FileInputStream(new File("input/apple-cat.jpg"));
+        BufferedImage sourceImage = ImageIO.read(inputStream);
 
         // create new image with transparent background and new size
         int width = sourceImage.getWidth();
         int height = sourceImage.getHeight();
-        int newHeight = height + (height/3);
+        int newHeight = height + (height/4);
         BufferedImage newImage = new BufferedImage(width, newHeight, BufferedImage.TRANSLUCENT);
 
         // copy source image to new image (in memory)
@@ -26,7 +29,7 @@ public class StickerGenerator {
         graphics.setFont(font);
                 
         // write text into new image
-        graphics.drawString("^-^", 100, newHeight - 100);
+        graphics.drawString("^-^", 250, newHeight - 60);
         
         // write new image on a file
         ImageIO.write(newImage, "png", new File("output/apple-cat.png"));
