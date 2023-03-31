@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
@@ -50,16 +51,19 @@ public class App {
 
             // generate subtitle according to rating
             String subtitle;
+            InputStream superposingImage;
             if (classification >= 8) {
                 subtitle = "EXCELLENT";
+                superposingImage = new FileInputStream(new File("superposition/yippie.png"));
             } else {
                 subtitle = "MID";
+                superposingImage = new FileInputStream(new File("superposition/empty.jpg"));
             }
 
             // generates stickers from url
             InputStream inputStream = new URL(imageURL).openStream();
             String stickerName = directory + "/" + title + ".png";
-            generator.create(inputStream, stickerName, subtitle);
+            generator.create(inputStream, stickerName, subtitle, superposingImage);
         }
     }
 }

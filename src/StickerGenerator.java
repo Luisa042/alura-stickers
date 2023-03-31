@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 public class StickerGenerator {
 
-    public void create(InputStream inputStream, String stickerName, String subtitle) throws Exception {
+    public void create(InputStream inputStream, String stickerName, String subtitle, InputStream inputSuperposingImage) throws Exception {
         // read image
         // InputStream inputStream = new FileInputStream(new File("input/apple-cat.jpg"));
         // InputStream inputStream = new URL("https://static.wikia.nocookie.net/evade-nextbot/images/0/0d/Tbh.png").openStream();
@@ -27,6 +27,12 @@ public class StickerGenerator {
         // copy source image to new image (in memory)
         Graphics2D graphics = (Graphics2D) newImage.getGraphics();
         graphics.drawImage(sourceImage, 0, 0, null);
+
+        // add superposing image
+        BufferedImage superposingImage = ImageIO.read(inputSuperposingImage);
+        int superposingImagePositionX = superposingImage.getWidth();
+        int superposingImagePositionY = newHeight - (superposingImage.getHeight() + extension / 2);
+        graphics.drawImage(superposingImage, superposingImagePositionX, superposingImagePositionY, null);
        
         // font config
         Font font = new Font(Font.MONOSPACED, Font.BOLD, 72);
