@@ -35,22 +35,31 @@ public class App {
             String imageURL = movie.get("image");
             String imDbRating = movie.get("imDbRating");
 
-            // generates stickers from url
-            InputStream inputStream = new URL(imageURL).openStream();
-            String stickerName = directory + "/" + title + ".png";
-            generator.create(inputStream, stickerName);
-
             // print info on terminal
             System.out.println("\u001b[1mTitle:\u001b[0m \u001b[44m " + title + " \u001b[m");
             System.out.println("\u001b[1mImage URL:\u001b[0m " + imageURL);
             System.out.print("\u001b[1mRating:\u001b[0m " + imDbRating + " ");
             
+            // print stars according to rating
             double classification = Double.parseDouble(imDbRating);
             int stars = (int) classification;
             for (int n = 1; n <= stars; n++) {
                 System.out.print("⭐");
             }
             System.out.println("\n");
+
+            // generate subtitle according to rating
+            String subtitle;
+            if (classification >= 8) {
+                subtitle = "EXCELLENT";
+            } else {
+                subtitle = "MID";
+            }
+
+            // generates stickers from url
+            InputStream inputStream = new URL(imageURL).openStream();
+            String stickerName = directory + "/" + title + ".png";
+            generator.create(inputStream, stickerName, subtitle);
         }
     }
 }

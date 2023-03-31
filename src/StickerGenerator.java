@@ -11,9 +11,7 @@ import javax.imageio.ImageIO;
 
 public class StickerGenerator {
 
-    public void create(InputStream inputStream, String stickerName) throws Exception {
-        String subtitle = "AAaaAaaAaAa";
-
+    public void create(InputStream inputStream, String stickerName, String subtitle) throws Exception {
         // read image
         // InputStream inputStream = new FileInputStream(new File("input/apple-cat.jpg"));
         // InputStream inputStream = new URL("https://static.wikia.nocookie.net/evade-nextbot/images/0/0d/Tbh.png").openStream();
