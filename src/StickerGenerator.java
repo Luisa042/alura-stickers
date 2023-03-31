@@ -1,6 +1,7 @@
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
@@ -18,7 +19,8 @@ public class StickerGenerator {
         // create new image with transparent background and new size
         int width = sourceImage.getWidth();
         int height = sourceImage.getHeight();
-        int newHeight = height + (height/4);
+        int extension = height / 4;
+        int newHeight = height + extension;
         BufferedImage newImage = new BufferedImage(width, newHeight, BufferedImage.TRANSLUCENT);
 
         // copy source image to new image (in memory)
@@ -29,16 +31,19 @@ public class StickerGenerator {
         Font font = new Font(Font.MONOSPACED, Font.BOLD, 64);
         graphics.setFont(font);
         
-        String text = "^-^";
+        String subtitle = "^-^";
         FontMetrics metrics = graphics.getFontMetrics(font);
-        int stringWidth = metrics.stringWidth(text);
+        int stringWidth = metrics.stringWidth(subtitle);
         
-        // centralizes text on X axis
-        var txtPositionX = width / 2 - (stringWidth/2);
-        var txtPositionY = newHeight - newHeight / 12; // working on this part
+        Rectangle2D textArea = metrics.getStringBounds(subtitle, graphics);
+        int stringHeight = (int) textArea.getHeight();
+
+        // centralizes text
+        int txtPositionX = (width - stringWidth) / 2;
+        int txtPositionY = newHeight - stringHeight;
 
         // write text into new image
-        graphics.drawString(text, txtPositionX, txtPositionY);
+        graphics.drawString(subtitle, txtPositionX, txtPositionY);
         
         // write new image on a file
         ImageIO.write(newImage, "png", new File(stickerName));
