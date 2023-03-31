@@ -1,6 +1,12 @@
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,7 +16,9 @@ import javax.imageio.ImageIO;
 
 public class StickerGenerator {
 
-    public void create(InputStream inputStream, String stickerName) throws Exception {
+    public void create(InputStream inputStream, String stickerName,String imDbRating) throws Exception {
+        String subtitle = imDbRating;
+
         // read image
         // InputStream inputStream = new FileInputStream(new File("input/apple-cat.jpg"));
         // InputStream inputStream = new URL("https://static.wikia.nocookie.net/evade-nextbot/images/0/0d/Tbh.png").openStream();
@@ -26,24 +34,38 @@ public class StickerGenerator {
         // copy source image to new image (in memory)
         Graphics2D graphics = (Graphics2D) newImage.getGraphics();
         graphics.drawImage(sourceImage, 0, 0, null);
-
+       
         // font config
-        Font font = new Font(Font.MONOSPACED, Font.BOLD, 64);
+        Font font = new Font(Font.MONOSPACED, Font.BOLD, 72);
+        graphics.setColor(Color.white);
         graphics.setFont(font);
         
-        String subtitle = "^-^";
+        // pick string measurements
         FontMetrics metrics = graphics.getFontMetrics(font);
         int stringWidth = metrics.stringWidth(subtitle);
-        
         Rectangle2D textArea = metrics.getStringBounds(subtitle, graphics);
         int stringHeight = (int) textArea.getHeight();
 
         // centralizes text
-        int txtPositionX = (width - stringWidth) / 2;
-        int txtPositionY = newHeight - stringHeight;
+        int textPositionX = (width - stringWidth) / 2;
+        int textPositionY = newHeight - stringHeight*2;
+        
+        // font outline
+        FontRenderContext fontRenderContext = graphics.getFontRenderContext();
+        TextLayout textLayout = new TextLayout(subtitle, font, fontRenderContext);
+        Shape outline = textLayout.getOutline(null);
+        AffineTransform transform = graphics.getTransform();
+        transform.translate(textPositionX, textPositionY);
+        graphics.setTransform(transform);
 
+        BasicStroke outlineStroke = new BasicStroke(width * 0.004f);
+        graphics.setStroke(outlineStroke);
+        graphics.setColor(Color.BLACK);
+        graphics.draw(outline);
+        graphics.setClip(outline);
+        
         // write text into new image
-        graphics.drawString(subtitle, txtPositionX, txtPositionY);
+        graphics.drawString(subtitle, textPositionX, textPositionY);
         
         // write new image on a file
         ImageIO.write(newImage, "png", new File(stickerName));

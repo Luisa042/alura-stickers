@@ -38,7 +38,7 @@ public class App {
             // generates stickers from url
             InputStream inputStream = new URL(imageURL).openStream();
             String stickerName = directory + "/" + title + ".png";
-            generator.create(inputStream, stickerName);
+            generator.create(inputStream, stickerName, imDbRating);
 
             // print info on terminal
             System.out.println("\u001b[1mTitle:\u001b[0m \u001b[44m " + title + " \u001b[m");
