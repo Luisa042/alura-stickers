@@ -1,12 +1,7 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,8 +11,8 @@ import javax.imageio.ImageIO;
 
 public class StickerGenerator {
 
-    public void create(InputStream inputStream, String stickerName,String imDbRating) throws Exception {
-        String subtitle = imDbRating;
+    public void create(InputStream inputStream, String stickerName) throws Exception {
+        String subtitle = "AAaaAaaAaAa";
 
         // read image
         // InputStream inputStream = new FileInputStream(new File("input/apple-cat.jpg"));
@@ -50,19 +45,18 @@ public class StickerGenerator {
         int textPositionX = (width - stringWidth) / 2;
         int textPositionY = newHeight - stringHeight*2;
         
-        // font outline
-        FontRenderContext fontRenderContext = graphics.getFontRenderContext();
-        TextLayout textLayout = new TextLayout(subtitle, font, fontRenderContext);
-        Shape outline = textLayout.getOutline(null);
-        AffineTransform transform = graphics.getTransform();
-        transform.translate(textPositionX, textPositionY);
-        graphics.setTransform(transform);
-
-        BasicStroke outlineStroke = new BasicStroke(width * 0.004f);
-        graphics.setStroke(outlineStroke);
-        graphics.setColor(Color.BLACK);
-        graphics.draw(outline);
-        graphics.setClip(outline);
+        // font outline (it's buggy)
+        // FontRenderContext fontRenderContext = graphics.getFontRenderContext();
+        // TextLayout textLayout = new TextLayout(subtitle, font, fontRenderContext);
+        // Shape outline = textLayout.getOutline(null);
+        // AffineTransform transform = graphics.getTransform();
+        // transform.translate(textPositionX, textPositionY);
+        // graphics.setTransform(transform);
+        // BasicStroke outlineStroke = new BasicStroke(width * 0.004f);
+        // graphics.setStroke(outlineStroke);
+        // graphics.setColor(Color.BLACK);
+        // graphics.draw(outline);
+        // graphics.setClip(outline);
         
         // write text into new image
         graphics.drawString(subtitle, textPositionX, textPositionY);
