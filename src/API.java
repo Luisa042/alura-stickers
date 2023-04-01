@@ -1,12 +1,14 @@
 public enum API {
-    // url and content extractor
+    // IMDb
     IMDB_TOP_MOVIES("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json", new ContentExtractorIMDB()),
     IMDB_TOP_SERIES("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopTVs.json", new ContentExtractorIMDB()),
     IMDB_POPULAR_MOVIES("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularMovies.json", new ContentExtractorIMDB()),
     IMDB_POPULAR_SERIES("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/MostPopularTVs.json",
             new ContentExtractorIMDB()),
     
-    NASA_APOD("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&start_date=2022-09-09&end_date=2022-09-20", new ContentExtractorNASA());
+    // NASA
+    NASA_APOD_2022("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/NASA-APOD.json", new ContentExtractorNASA()),
+    NASA_APOD_JWST("https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/NASA-APOD-JamesWebbSpaceTelescope.json", new ContentExtractorNASA());
 
     private String url;
     private ContentExtractor extractor;

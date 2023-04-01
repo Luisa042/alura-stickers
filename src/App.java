@@ -6,7 +6,7 @@ import java.util.List;
 public class App {
     public static void main(String[] args) throws Exception {
         // get data from api
-        API api = API.NASA_APOD;
+        API api = API.NASA_APOD_JWST;
         String url = api.getUrl();
         ContentExtractor extractor = api.getExtractor();
 
@@ -23,7 +23,7 @@ public class App {
         directory.mkdir();
 
         // show and manipulate data
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             Content content = contentList.get(i);
 
             String title = content.getTitle();
