@@ -2,40 +2,44 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 public class App {
     public static void main(String[] args) throws Exception {
         // get data from api
+
+        // IMDb API
         String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-        
+        ContentExtractor extractor = new ContentExtractorIMDB();
+
         var http = new ClientHttp();
         String json = http.getData(url);
 
         // parse data
-        JsonParser parser = new JsonParser();
-        List<Map<String, String>> contentList = parser.parse(json);
+        List<Content> contentList = extractor.extractContent(json);
 
         StickerGenerator generator = new StickerGenerator();
 
-        // checks if 'stickers' directory exists and create if doesn't exists
-        var directory = new File("stickers/");
+        // check if 'stickers' directory exists and creates it if doesn't exists
+        File directory = new File("stickers/");
         directory.mkdir();
 
         // show and manipulate data
-        for (Map<String, String> content : contentList) {
-            String title = content.get("title");
-            String imageURL = content.get("image");
+        for (int i = 0; i < 10; i++) {
+            Content content = contentList.get(i);
+
+            String title = content.getTitle();
+            String imageURL = content.getImageURL();
             String subtitle = "TESTING";
+
+            InputStream inputStream = new URL(imageURL).openStream();
+            String stickerName = directory + "/" + title + ".png";
+
+            // generate stickers
+            generator.create(inputStream, stickerName, subtitle);
 
             // print info on terminal
             System.out.println("\u001b[1mTitle:\u001b[0m \u001b[44m " + title + " \u001b[m");
             System.out.println();
-
-            // generates stickers from url
-            InputStream inputStream = new URL(imageURL).openStream();
-            String stickerName = directory + "/" + title + ".png";
-            generator.create(inputStream, stickerName, subtitle);
         }
     }      
 }
