@@ -15,8 +15,8 @@ public class ClientHttp {
             String body = response.body();
             return body;
             
-        } catch (IOException | InterruptedException exc) {
-            throw new RuntimeException(exc);
+        } catch (IOException | InterruptedException exception) {
+            throw new ClientHttpException("Error while querying URL.");
         }
     }
 }
