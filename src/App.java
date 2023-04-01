@@ -23,7 +23,7 @@ public class App {
         var directory = new File("stickers/");
         directory.mkdir();
 
-        // show parsed data
+        // show and manipulate data
         for (Map<String, String> movie : movieList) {
             String title = movie.get("title");
             String imageURL = movie.get("image");
@@ -31,7 +31,6 @@ public class App {
 
             // print info on terminal
             System.out.println("\u001b[1mTitle:\u001b[0m \u001b[44m " + title + " \u001b[m");
-            System.out.println("\u001b[1mImage URL:\u001b[0m " + imageURL);
             System.out.print("\u001b[1mRating:\u001b[0m " + imDbRating + " ");
             
             // print stars according to rating
@@ -42,7 +41,7 @@ public class App {
             }
             System.out.println("\n");
 
-            // generate subtitle according to rating
+            // generate subtitle and add image according to rating
             String subtitle;
             InputStream superposingImage;
             if (classification >= 8) {
@@ -58,5 +57,6 @@ public class App {
             String stickerName = directory + "/" + title + ".png";
             generator.create(inputStream, stickerName, subtitle, superposingImage);
         }
-    }
+    }      
 }
+
