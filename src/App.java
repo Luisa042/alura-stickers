@@ -6,10 +6,9 @@ import java.util.List;
 public class App {
     public static void main(String[] args) throws Exception {
         // get data from api
-
-        // IMDb API
-        String url = "https://raw.githubusercontent.com/alura-cursos/imersao-java-2-api/main/TopMovies.json";
-        ContentExtractor extractor = new ContentExtractorIMDB();
+        API api = API.NASA_APOD;
+        String url = api.getUrl();
+        ContentExtractor extractor = api.getExtractor();
 
         var http = new ClientHttp();
         String json = http.getData(url);
@@ -24,7 +23,7 @@ public class App {
         directory.mkdir();
 
         // show and manipulate data
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             Content content = contentList.get(i);
 
             String title = content.getTitle();
