@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ContentExtractorNASA {
+public class ContentExtractorNASA implements ContentExtractor {
     public List<Content> extractContent(String json) {
         // extract usable data
         JsonParser parser = new JsonParser();
